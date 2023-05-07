@@ -54,3 +54,7 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 느낀 점
+
+왼쪽 대각선, 오른쪽 대각선 구분 잘 해서 처리하자. 그리고 구현연습 열심히 하기!
