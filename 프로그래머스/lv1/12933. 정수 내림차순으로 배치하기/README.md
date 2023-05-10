@@ -39,3 +39,11 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- array.sort() 를 사용하면, 자동으로 정렬이 되며, array.sort(reverse=True) 하면 역방향으로 정렬한다. 
+        - 이 때, string 배열이라도 상관없다
+
+- ' '.join(s for s in array) 하면, 띄어쓰기를 지원하면서 array 의 내용물을 string 으로 모두 바꿔준다.
+        - 띄어쓰기가 필요없으면, ''.join(s for s in array) 하면 되는듯 하다.
