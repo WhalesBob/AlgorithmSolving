@@ -68,3 +68,6 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+- list.contains() 를 python 에서는 단순히 (element not in array) 와 같이 대체한다.
