@@ -63,3 +63,7 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+range 는 시작부터 끝인데, 끝은 포함되지 않는다.
