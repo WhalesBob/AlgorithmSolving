@@ -44,3 +44,8 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- Integer.MAX_VALUE 같은 것이 파이썬에는 없다. 그냥 임의로 10 ** 100 과 같이 세팅해 주자.
+- 파이썬에서 제곱은 그냥 10 ** 2 와 같이 쓸 수 있다.
