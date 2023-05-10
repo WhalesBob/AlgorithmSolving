@@ -41,3 +41,10 @@ Empty
 </code></pre></div>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- 파이썬에서는 표준 입력으로 통해 두개를 동시에 받을 때 아래와 같이 받을 수 있다
+```python
+a, b = map(int, input().strip().split(' '))
+``` 
