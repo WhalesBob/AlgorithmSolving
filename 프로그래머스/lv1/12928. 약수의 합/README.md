@@ -51,3 +51,9 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+- Set 자료구조는 s = set() 와 같은 방법으로 선언한다.
+- 올림을 사용하는 방법은 math.ceil(), 제곱근은 math.sqrt()
+- 하나씩 set에 집어넣는 방법은 s.add(). 이때는 원소를 한개씩 넣는다
+- 여러 개 set에 한번에 집어넣을 수 있다. 이때는, set.update() 를 사용하며, 대괄호로 감싸주기만 하면 된다.
