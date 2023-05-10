@@ -54,3 +54,6 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+- Math.min(), Math.max() 는 그냥 단순히 min(), max() 로 처리할 수 있으며, 이마저도 여러 개 넣어서 비교할 수 있다.
