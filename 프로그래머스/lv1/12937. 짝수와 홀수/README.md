@@ -44,3 +44,13 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운점
+
+파이썬에서는 삼항 연산이 원래처럼 존재하지는 않는다.
+
+```python
+return "Even" if (num % 2 == 0) else "Odd"
+```
+
+이렇게 사용할 수 있다는 것을 기억하고, 사용하자.
