@@ -39,3 +39,8 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- String 타입을 list() 씌워서 담으면 그냥 하나씩 다 떼어져 담긴다 
+- array.reverse() 하면, 그냥 앞뒤 뒤집힌다 
