@@ -44,3 +44,8 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+- python list 에서도 array[i] 와 같은 접근이 충분히 가능하다 
+        - 그렇다고, 그냥 for s in array: 를 사용할 수 있는데도 안쓰지는 말자. 이게 훨씬 편하다
+- python 에서도 0 부터 index 가 시작이다!
