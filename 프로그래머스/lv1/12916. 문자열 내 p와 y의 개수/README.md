@@ -58,3 +58,9 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- a,b = 0,0 이런식으로 초기화하는 것이 가능하다.
+- 그냥 char 한개 비교하는것처럼 보여도, 그냥 == 하면 알아서 비교된다.
+- t.lower() 하면, 소문자 전환, t.upper() 하면 대문자 전환, t.isupper() 하면 대문자인지 판단하는 boolean
