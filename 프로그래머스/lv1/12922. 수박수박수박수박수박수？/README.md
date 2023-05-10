@@ -43,3 +43,7 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 것
+
+- 그냥 문자열을 이어붙일 때, answer += '수' 와 같은 방법을 이용하는 것이 가능하다.
