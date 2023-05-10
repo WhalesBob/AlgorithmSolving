@@ -41,3 +41,7 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- 그냥 for s in array 이후, 해당 element 의 index 에 접근하고 싶으면, array.index(s) 이렇게 찾으면 된다.
