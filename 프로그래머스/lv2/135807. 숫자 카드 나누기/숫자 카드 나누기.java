@@ -1,7 +1,8 @@
 import java.util.*;
 
 class Solution {
-    public int solution(int[] arrayA, int[] arrayB) {Arrays.sort(arrayA);
+    public int solution(int[] arrayA, int[] arrayB) {
+        Arrays.sort(arrayA);
         Arrays.sort(arrayB);
 
         return Math.max(getMaximumOfResult(arrayA, arrayB), getMaximumOfResult(arrayB, arrayA));
@@ -51,5 +52,4 @@ class Solution {
         }
         return queue;
     }
-
 }
