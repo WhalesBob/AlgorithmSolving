@@ -46,3 +46,18 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+```python
+result = []
+    for i in range(0,len(arr1)):
+        tmp = []
+        for j in range(0,len(arr1[0])):
+            tmp.append(arr1[i][j] + arr2[i][j])
+        
+        result.append(tmp)
+        
+    return result  
+```
+- 행렬 덧셈을 위와 같이 처리하자.
