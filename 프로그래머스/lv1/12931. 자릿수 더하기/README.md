@@ -54,3 +54,16 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+```python
+text = str(n)
+sum = 0
+    
+for t in text:
+    sum = sum + int(t)
+```      
+
+Integer.parseInt() 는 그냥 int(), Integer.toString() 은 str(), 
+for t in text 하면, 한자리씩 그냥 받을 수 있다.
