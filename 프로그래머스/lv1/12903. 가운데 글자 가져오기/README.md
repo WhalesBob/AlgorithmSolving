@@ -43,3 +43,7 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- s[m:n] 과 같은 식으로 문자열을 잘라 저장할 수 있다. 하지만, 이때 m 이상 n 미만 이라는 점은 기억하자.
