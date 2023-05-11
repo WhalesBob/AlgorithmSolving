@@ -54,3 +54,14 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점 : 유클리드 호제법
+
+### A 와 B의 최대공약수는, A = BQ + R 에서 B 와 R의 최대공약수와 같다
+
+증명 : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=papers&logNo=140207307545
+
+- 임의의 최대공약수가 있다 치고, 그로 나누어진 두개의 수가 서로소임을 증명하는 과정이다. 
+- 귀류법으로 이루어지며, 반대의 케이스가 모순임을 잡으면 증명된다.
+
+#### 최대공약수, 최소공배수는 언제나 나올 수 있는 수학적인 도구이니, 유클리드 호제법은 항상 알아 두도록 하자.
