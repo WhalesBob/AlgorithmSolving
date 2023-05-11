@@ -101,3 +101,16 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- int(str, n) 과 같이 쓰면, n진수 숫자로 이루어진 str 문자열을 10진수 숫자로 돌릴 수 있다.
+- 10진수를 n 진수로 돌리는 애는 개발되어 있지 않다. 하지만, 몫과 나머지를 둘다 돌려주는 divmod() 함수를 활용하여 아래와 같이 개발할 수 있다. return 되는 것은 String.
+```python
+def convert(n, q):
+    base = ''
+    while(n > 0):
+        n,mod = divmod(n,q)
+        base += str(mod)
+    return base[::-1]
+```
