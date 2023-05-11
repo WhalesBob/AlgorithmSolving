@@ -44,3 +44,8 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운점
+
+- 정말 개꿀이다. datetime 의 strptime() 메소드를 사용하여 날짜를 다 구한다음, 단순 빼기 하여 dateDiff 를 구하고, 거기에서 dateDiff.days 하면 int 로 차이가 나온다.
+- 인덱스를 구해서 마저 처리하면 끝
