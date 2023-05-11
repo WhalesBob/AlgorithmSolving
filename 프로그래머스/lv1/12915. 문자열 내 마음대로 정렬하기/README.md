@@ -58,3 +58,9 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+
++ sorted(strings, key= lambda x:(x[n],x)): sorting 을 key 를 기준으로 우선적으로 할 수 있는 모양이다. 그리고 기준 키가 같을 때 두번째 argument로 처리할 수 있는 모양이다.
+        - 찾아볼 수 있다면 구현체를 찾아보도록 하자.
