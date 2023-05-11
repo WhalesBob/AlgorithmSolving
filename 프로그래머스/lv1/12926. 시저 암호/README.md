@@ -54,3 +54,7 @@ Empty
       </table>
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- 문자를 아스키 코드로 바꾸는 것은 ord(s), 10진수 아스키 코드를 다시 문자로 돌리는 것은 chr(n) 으로 처리 가능하다.
