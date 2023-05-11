@@ -60,3 +60,7 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- i,j,k = [1,2,3] 으로 할당하는 것이 가능하다.
