@@ -77,3 +77,32 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점 : Combination 만들기 
+
+#### Combination 만드는 것은, 저번에도 가로막혀서 문제를 똑바로 해결하지 못했을 만큼 유용하면서도 가끔씩 나오는 문제 해결 방법이다. 꼭 알아 놓도록 하자.
+
+### Combination by BackTracking
+
+```python
+combination = []
+
+def makeCombination(arr,visited,start,n,r):
+    if(r == 0):
+        combination.append(makeArray(arr,visited)) # combination 배열에 케이스 집어넣는 부분
+        return
+    
+    for i in range(start, n):
+        visited[i] = True # 방문한 부분만 True 로 표시한다.
+        makeCombination(arr, visited, i+1, n, r-1) ## start 에 i+1 을 집어넣음으로써, 중복 방문을 피한다. 그리고 r 자리에 r-1 넣음으로써 몇개를 더 뽑아야 하는지를 알려 준다.
+        ## 이렇게 해 주면, range 의 start 가 더 커지면서, 뽑아야 하는 범위를 계속 좁힌다.
+        visited[i] = False ## 재귀를 빠져나왔으면, 다시 False 로 바꾸어 준다. 추후에 다른 재귀에서 영향이 받지 않게 해준다.
+        
+def makeArray(arr, visited):
+    array = []
+    for i in range(0, len(arr)):
+        if(visited[i]): ## 걸려서 방문한 애들만 append 해 주는 부분이다.
+            array.append(arr[i])
+            
+    return array        
+```    
