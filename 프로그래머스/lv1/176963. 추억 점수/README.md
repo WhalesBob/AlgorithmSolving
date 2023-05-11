@@ -1,4 +1,4 @@
-# [unrated] 추억 점수 - 176963 
+# [level 1] 추억 점수 - 176963 
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/176963) 
 
@@ -93,3 +93,7 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- dictionary 는 d[key] = value 라는 방식으로 더할 수 있다.
