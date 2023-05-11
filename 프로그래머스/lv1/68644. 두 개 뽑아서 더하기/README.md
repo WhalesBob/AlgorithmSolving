@@ -78,3 +78,8 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- 역시 combination 구할 줄 아니까 대단히 쉽게 끝난 문제였다.
+- set() 만들어 놓은 것을 list 로 만드는 메소드는 list(s) 이다.
