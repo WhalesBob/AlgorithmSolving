@@ -58,3 +58,13 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점 : Python Stack
+
+### 파이썬에는 Stack 자료구조가 없다. 단순히 list 로 Stack 을 흉내낼 수 있다.
+
+- stack.push() 는 list.append() 로 처리하면 된다.
+- stack.pop() 은 list.pop() 하면 된다. pop() 은 마지막 원소를 제거하는 메소드라고 한다.
+- stack.peek() 은 list[-1] 로써 찾아올 수 있다고 한다. 
+
+#### 알아두고 써먹도록 하자.
