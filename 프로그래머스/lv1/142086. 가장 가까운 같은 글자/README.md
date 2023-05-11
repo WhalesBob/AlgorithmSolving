@@ -1,4 +1,4 @@
-# [unrated] 가장 가까운 같은 글자 - 142086 
+# [level 1] 가장 가까운 같은 글자 - 142086 
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/142086) 
 
@@ -75,3 +75,10 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배우고 느낀 점
+
+- range(a,b,c) 이렇게 하면 c 가 증감 처리할수있는 부분이다.
+### 어이 없는 실수 그만! range() 두번째 숫자는 포함되지 않는다. 
+
+
