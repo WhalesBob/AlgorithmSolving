@@ -154,3 +154,9 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- dictionary 를 처음에 시작할 때, {"one":1, "two",2} 이런식으로 초기화하는 것이 가능하다.
+- dictionary 에서 값을 가지고올 때는, d["one"] 이런 식으로 값을 가져올 수 있다.
+- dictionary 로, Map<A,B> 를 대체할 수 있다.
