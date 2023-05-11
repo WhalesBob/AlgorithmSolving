@@ -5,7 +5,4 @@ def solution(t, p):
         compare = int(t[i:i+length])
         if(compare <= int(p)):
             count+=1
-    return count        
-            
-        
-        
+    return count
