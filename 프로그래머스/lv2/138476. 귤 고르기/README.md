@@ -1,4 +1,4 @@
-# [unrated] 귤 고르기 - 138476 
+# [level 2] 귤 고르기 - 138476 
 
 [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/138476) 
 
@@ -82,3 +82,11 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- python 에서 dictionary 정렬하는 법
+```python
+sorted_dict = sorted(d.items(), key=lambda item: item[1], reverse=True)
+```
+- 이 때, sorted_dict 는 list 의 list 로 만들어진다. 그리고 value 꺼내는 법은 해당 자식 리스트의 0번째 가 아닌 1번째 index 에 위치한다.
