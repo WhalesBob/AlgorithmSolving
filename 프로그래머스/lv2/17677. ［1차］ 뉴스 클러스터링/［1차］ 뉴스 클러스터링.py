@@ -8,7 +8,4 @@ def solution(str1, str2):
     
     cross = list((arr1 & arr2).elements())
     union = list((arr1 | arr2).elements())
-    print(cross)
-    print(union)
-    
     return 65536 if (len(union) == 0 and len(cross) == 0) else int((len(cross) / len(union)) * 65536)
