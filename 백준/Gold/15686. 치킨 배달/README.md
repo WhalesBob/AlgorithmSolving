@@ -49,3 +49,25 @@
 
  <p>첫째 줄에 폐업시키지 않을 치킨집을 최대 M개를 골랐을 때, 도시의 치킨 거리의 최솟값을 출력한다.</p>
 
+
+## 배우고 느낀 점
+- 일단 내 힘으로 푼 문제가 아니다. 백준 문제들은 최대한 빠르게 문제를 파악해서 문제를 풀어보는 것을 시도하는쪽으로 하고, 적극적으로 배울 점을 배우자. 
+- 완전 탐색인것까지는 확인했다. 여기서 완전탐색의 힌트는, "집의 갯수는 2N 개를 넘지 않는다." , "M <= 13" 이었다.
+- 완전 탐색인 것을 알았다면, 최대한 빠른 방법으로 가장 꼼꼼한 방식을 사용해서 처리하도록 하자.
+- 이 문제에서는, 한 집을 기준으로 치킨 집이 가장 짧은 애를 기준으로 chi_len 을 잡아놓고, temp 에 집집마다 더한다. 
+- 그리고 combination() 함수로 전체 치킨 집 중 n 개를 조합으로 고르면, 고른 치킨 집 기준으로 all_chicken_length 를 비교해서 더 짧은 애를 고르면 되는 문제였다. 
+
+- itertools 의 permutations, combination 를 완전탐색에서 애용할 수 있을 것이다. 
+```python
+from itertools import combinations
+for chi in combinations(chicken, m):
+    temp = 0
+    for h in house:
+        chi_len = 999
+        for j in range(0, len(chi)):
+            chi_len = min(chi_len, abs(h[0] - chi[j][0]) + abs(h[1] - chi[j][1]))
+        temp += chi_len
+    all_chicken_length = min(all_chicken_length, temp)
+ ```
+    
+
