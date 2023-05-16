@@ -89,3 +89,18 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+
+## 배운 점
+
+- python 의 Counter 를 사용하여, 교집합과 합집합을 원활하게 구할 수 있다.
+
+```python
+from collections import Counter
+tmp1 = [str1[i:i+2] for i in range(len(str1))]
+arr1 = Counter([x.upper() for x in tmp1 if x.isalpha() and len(x) == 2])
+tmp2 = [str2[i:i+2] for i in range(len(str2))]
+arr2 = Counter([x.upper() for x in tmp2 if x.isalpha() and len(x) == 2])
+
+cross = list((arr1 & arr2).elements())
+union = list((arr1 | arr2).elements())
+```
