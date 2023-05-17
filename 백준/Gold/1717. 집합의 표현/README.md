@@ -24,3 +24,26 @@
 
  <p>1로 시작하는 입력에 대해서 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44E TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$a$</span></mjx-container>와 <mjx-container class="MathJax" jax="CHTML" style="font-size: 109%; position: relative;"><mjx-math class="MJX-TEX" aria-hidden="true"><mjx-mi class="mjx-i"><mjx-c class="mjx-c1D44F TEX-I"></mjx-c></mjx-mi></mjx-math><mjx-assistive-mml unselectable="on" display="inline"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>b</mi></math></mjx-assistive-mml><span aria-hidden="true" class="no-mathjax mjx-copytext">$b$</span></mjx-container>가 같은 집합에 포함되어 있으면 "<code>YES</code>" 또는 "<code>yes</code>"를, 그렇지 않다면 "<code>NO</code>" 또는 "<code>no</code>"를 한 줄에 하나씩 출력한다.</p>
 
+## 배우고 느낀 점
+
+- python list 에서, set() 이 들어갈 수 있는 한계는 50만개이다.
+
+- Union & Find 코드 구현방법
+```python
+root_list = list(range(n + 1)) # 그냥 어차피 1-1, 2-2 이렇게 처음에는 매칭한다고 생각하면 된다.
+
+
+def find(x):
+    if root_list[x] == x: # 자기 자신이 부모 노드이면,
+        return x
+    else:
+        root_list[x] = find(root_list[x]) # 아닐 때는, root_list[x] 를 항상 상위 노드의 루트로 경로압축!
+        return root_list[x] # 경로 압축해 준 뒤, 결론을 가지고 온다.
+
+
+def union(x, y):
+    x, y = find(x), find(y) # 두 개의 가장 꼭대기 루트 값으로 가지고 온 뒤
+    root_list[y] = x # 한 쪽의 루트를 다른 쪽으로 맞춰준다.
+    # 어차피, 통합한 뒤에도, find 에서의 경로압축을 통해 찾아 둔 모든 element 의 root 가 맞춰질 것이다.
+```
+
