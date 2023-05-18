@@ -9,3 +9,8 @@
 
 
 > 출처: SW Expert Academy, https://swexpertacademy.com/main/code/problem/problemList.do
+
+## 생각의 흐름
+
+BFS 로 업데이트 하되, 기존의 누적거리를 엄청 높게 주고 
+min() 으로 해 주면서, 더 작게 되는 애들만 queue 에 넣는다.
