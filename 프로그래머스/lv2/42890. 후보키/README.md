@@ -1,10 +1,10 @@
 # [level 2] 후보키 - 42890 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42890) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42890?language=java) 
 
 ### 성능 요약
 
-메모리: 10.4 MB, 시간: 0.31 ms
+메모리: 71.8 MB, 시간: 3.25 ms
 
 ### 구분
 
@@ -74,18 +74,3 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
-
-## 배운 점
-
-- combinations 할 때, A-Z까지 모두 노린 것이라면 그냥 꼼꼼하게 모두 만들어 주는 것이 좋다!
-```python
-    for i in range(1, len(indexList)+1):
-        makeCombination(indexList, visited, 0, len(indexList), i)
-```
-
-- 파이썬에서, 조건식을 걸어 주면서 새로 배열을 만드는 것이 가능하다. 
-```
-new_comb = [value for value in new_comb if not all(item in value for item in c)]
-
-sub = [r[i] for i in keyIndex]
-```
