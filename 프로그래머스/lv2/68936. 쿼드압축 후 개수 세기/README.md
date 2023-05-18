@@ -1,10 +1,10 @@
 # [level 2] 쿼드압축 후 개수 세기 - 68936 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68936) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/68936?language=java) 
 
 ### 성능 요약
 
-메모리: 12.3 MB, 시간: 68.63 ms
+메모리: 116 MB, 시간: 8.39 ms
 
 ### 구분
 
@@ -80,7 +80,3 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
-
-## 느낀 점
-- 반례가 없다고 생각하면, 답은 의외로 가까운 곳에 있다. 등잔 밑은 항상 어두분 법이다(가령, 처음부터 4개로 쪼개지는 말아야 한다는...? 그런 반례)
-- 혹은 단순한 처리라고 생각했던 부분부터 다시 보자. 
