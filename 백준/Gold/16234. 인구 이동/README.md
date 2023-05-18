@@ -40,3 +40,13 @@
 
  <p>인구 이동이 며칠 동안 발생하는지 첫째 줄에 출력한다.</p>
 
+## 느낀 점
+
+- union/find 를 바로 떠올려서 구현한 점은 좋았다. 남들은 BFS 나 DFS로 했다는데, union/find 로 구현하니 조금 더 직관적으로 구현할 수 있었다. 
+- 하지만, union/find 를 사용할 때는, Grouping 을 위해서 root_check() 을 하기로 하자.
+```python
+def root_check():
+    global root
+    for i in range(1, n ** 2 + 1):
+        root[i] = find(i)
+```
