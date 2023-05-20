@@ -9,3 +9,7 @@
 
 
 > 출처: SW Expert Academy, https://swexpertacademy.com/main/code/problem/problemList.do
+
+## 느낀 점
+
+제발 문제 요건 잘 봐라!!!!! 문제 요건에서 틀린게 없는지 다시한번 확인하고!!!!!
