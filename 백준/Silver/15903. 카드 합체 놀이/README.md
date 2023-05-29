@@ -35,3 +35,20 @@
 
  <p>첫 번째 줄에 만들 수 있는 가장 작은 점수를 출력한다.</p>
 
+
+## 배운 점 
+
+- python 의 우선순위 큐를 구하는 방법으로, 대표적으로 heap 을 사용하는 방식이 존재한다 
+- python 의 heap 은 최소 힙이다. 최대 힙을 사용하고 싶거나 우선순위를 커스텀하기 위해서는 튜플을 사용해서 구현해야 한다.
+```python
+import heapq
+
+heapq.heapify(array)
+
+heapq.heappop(array)
+heapq.heappush(array, 5)
+
+heapq.heappush(array, (-num, num))
+heapq.heappop(array)[1] 
+# 이렇게 우선순위를 적어주는 방식으로 최대 힙도 구현 가능하다
+```
