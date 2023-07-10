@@ -1,9 +1,7 @@
 from sys import stdin
 
-
 def rotate_x_y(input_x, input_y):
     return -1 * input_y, input_x
-
 
 def get_first_direction(direction):
     if direction == 0:
@@ -14,7 +12,6 @@ def get_first_direction(direction):
         return -1, 0
     if direction == 3:
         return 0, 1
-
 
 def make_dragon_curve(direction, goal_generation):
     # 무조건 시계 방향으로 90도 회전해, 그 다음 선분을 잇는다.
@@ -33,7 +30,6 @@ def make_dragon_curve(direction, goal_generation):
 
     return add_list
 
-
 def draw_on_matrix(matrix, start_x, start_y, curve_list):
     x, y = start_x, start_y
     matrix[y][x] = 1
@@ -42,10 +38,8 @@ def draw_on_matrix(matrix, start_x, start_y, curve_list):
         x, y = x + move_x, y + move_y
         matrix[y][x] = 1
 
-
 def check_on_left_up(matrix, x, y):
     return matrix[y][x] == matrix[y+1][x] == matrix[y][x+1] == matrix[y+1][x+1] == 1
-
 
 n = int(stdin.readline())
 matrix = [[0 for _ in range(101)] for _ in range(101)]
@@ -55,7 +49,6 @@ for i in range(n):
     total_list = []
     dragon_curve_list = make_dragon_curve(d, g)
     draw_on_matrix(matrix, x, y, dragon_curve_list)
-
 
 count = 0
 
