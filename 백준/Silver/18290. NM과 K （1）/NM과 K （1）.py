@@ -20,12 +20,12 @@ def all_not_close(element_list):
 
 iter_list = [(x, y) for x in range(m) for y in range(n)]
 
-number_set = set()
+max_num = -999_999_999
 for element_array in combinations(iter_list, k):
     number_sum = 0
     if all_not_close(element_array):
         for element in element_array:
             number_sum += matrix[element[1]][element[0]]
-        number_set.add(number_sum)
+        max_num = max(max_num, number_sum)
 
-print(max(number_set))
+print(max_num)
