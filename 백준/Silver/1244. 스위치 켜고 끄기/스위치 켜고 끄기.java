@@ -1,61 +1,51 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+	static int[] number = new int[101];
+	static int n;
+	public static void boys(int x,int cnt) {
+		int t= (x*cnt)-1;
+		if(t>(n-1)) return;
+		number[t]=(number[t]==0)? 1:0;
+		boys(x,cnt+1);
+	}
+	public static void girls(int x,int cnt) {
+		if(((x-cnt)-1)<0 || ((x+cnt)-1)>(n-1) || (number[(x-cnt)-1]!=number[(x+cnt)-1])) {
+			number[x-1]=(number[x-1]==0)? 1:0;
+			return ;
+		}
+		number[(x-cnt)-1]=(number[(x-cnt)-1]==0)? 1:0;
+		number[(x+cnt)-1]=(number[(x+cnt)-1]==0)? 1:0;
+		girls(x,cnt+1);
+	}
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int count = Integer.parseInt(br.readLine());
-		
-		int[] array = makeArray(br, count);
-		
-		int studentCount = Integer.parseInt(br.readLine());
-		for(int i = 0; i < studentCount; i++) {
-			String[] input = br.readLine().trim().split(" ");
-			int sex = Integer.parseInt(input[0]);
-			int num = Integer.parseInt(input[1]);
-			
-			changeNumber(array, sex, num);
+		n = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		for(int i = 0 ; i < n ; i++) {
+			number[i] = Integer.parseInt(st.nextToken());
+		} //입력 끝
+		int m = Integer.parseInt(br.readLine()); //학생수
+		for(int i = 0 ; i < m ; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			if(a == 1) boys(b ,1);
+			if(a == 2) girls(b ,0);
 		}
-		
-		for(int i = 1; i < array.length; i++) {
-			System.out.print(array[i]);
-			if(i % 20 == 0) {
-				System.out.println();
-			}else if(i < array.length - 1) {
+		int c = 0;
+		for(int i = 0 ; i < n ; i++) {
+			System.out.print(number[i]);
+			c++;
+			if(i!=n-1)
 				System.out.print(" ");
+			if(c==20) {
+				c=0;
+				System.out.println();
 			}
-		}
-	}
-	static int[] makeArray(BufferedReader br, int size) throws IOException{
-		int[] array = new int[size + 1];
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		
-		for(int i = 1; i <= size; i++) {
-			array[i] = Integer.parseInt(st.nextToken());
-		}
-		return array;
-	}
-	static void changeNumber(int[] array, int sex, int index) {
-		if(sex == 1) {
-			for(int i = index; i < array.length; i+=index) {
-				array[i] = (array[i] == 1) ? 0 : 1;
-			}
-		}
-		
-		if(sex == 2) {
-			int count = getCount(array, index);
-			for(int i = index - count; i <= index + count; i++) {
-				array[i] = (array[i] == 1) ? 0 : 1;
-			}
-		}
-	}
-	static int getCount(int[] array, int index) {
-		int count = 0;
-		for(count = 1; index - count > 0 && index + count < array.length ; count++) {
-			if(array[index - count] != array[index + count]) {
-				break;
-			}
-		}
-		return count == 0 ? count : count -1;
+		} //출력
 	}
 }
