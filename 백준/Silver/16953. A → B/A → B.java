@@ -2,38 +2,29 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	static long A;
+	static long B;
+	static int minDepth = -1;
+	
+	public static void recur(int depth, long a) {
+		if(a >= B) {
+			if(a == B && (minDepth == -1 || minDepth > depth)) {
+				minDepth = depth;
+			}
+			return;
+		}
+		recur(depth + 1, a * 2);
+		recur(depth + 1, a * 10 + 1);
+	}
+	
+	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int a = Integer.parseInt(st.nextToken());
-		int b = Integer.parseInt(st.nextToken());
-		if(a == b) {
-			System.out.println(0);
-		}else {
-			System.out.println(bfs(a, b));
-		}
-	}
-
-	static long bfs(long a, long b) {
-		Queue<Long> queue = new LinkedList<>();
-		queue.add(a);
-		int count = 1;
-		while(!queue.isEmpty()) {
-			int size = queue.size();
-			for(int i = 0; i < size; i++) {
-				long element = queue.remove();
-				if(element * 10 + 1 == b || element * 2 == b) {
-					return count + 1;
-				}
-				if(element * 10 + 1 < b) {
-					queue.add(element * 10 + 1);
-				}
-				if(element * 2 < b) {
-					queue.add(element * 2);
-				}
-			}
-			count++;
-		}
-		return -1;
+		
+		A = Long.parseLong(st.nextToken());
+		B = Long.parseLong(st.nextToken());
+		
+		recur(1, A);
+		System.out.println(minDepth);
 	}
 }
