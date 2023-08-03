@@ -1,59 +1,37 @@
-import java.io.*;
-import java.util.*;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+//2961번 도영이가 만든 맛있는 음식
 
 public class Main {
-	static long min;
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		
-		min = Integer.MAX_VALUE;
-		Node[] list = makeList(br, n);
-		for(int r = 1; r <= n; r++) {
-			combination(list, new boolean[n], 0, n, r);
-		}
-		System.out.println(min);
-		
-	}
-	static void combination(Node[] arr, boolean[] visited, int start, int n, int r) {
-		if(r == 0) {
-			long bit = 0, sour = 1;
-			for(int i = 0; i < arr.length; i++) {
-				if(visited[i]) {
-					bit += arr[i].bitter;
-					sour *= arr[i].sour;
-				}
-			}
-			if(min > Math.abs(bit - sour)) {
-				min = (long)Math.abs(bit - sour);
+	static long[][] arr;
+	static long answer=1000000000;
+	static int n;
+	public static void find(int a,int cnt, long sum, long sum1) {
+		if(a==n) {
+			if(cnt!=0) { 
+				answer = ( (Math.abs(answer) > Math.abs(sum1-sum)) ? (Math.abs(sum1-sum)) : (Math.abs(answer)) );
 			}
 			return;
 		}
-		
-		for(int i = start; i < n; i++) {
-			visited[i] = true;
-			combination(arr, visited, i+1, n, r-1);
-			visited[i] = false;
+		else {
+			find(a+1,cnt,sum,sum1);
+			sum=sum*arr[a][0];
+			sum1=sum1+arr[a][1];
+			find(a+1,cnt+1,sum,sum1);
 		}
+		return;
 	}
-	static Node[] makeList(BufferedReader br, int size) throws IOException{
-		Node[] list = new Node[size];
-		for(int i = 0; i < size; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-			int sour = Integer.parseInt(st.nextToken());
-			int bitter = Integer.parseInt(st.nextToken());
-			
-			list[i] = new Node(sour, bitter);
+	public static void main(String[] args) throws IOException{
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+		arr= new long[n][2];
+		for(int i = 0 ; i < n ; i++) {
+			arr[i][0]= sc.nextLong();
+			arr[i][1]= sc.nextLong();
 		}
-		return list;
-	}
-	static class Node{
-		int sour;
-		int bitter;
-		
-		public Node(int sour, int bitter) {
-			this.sour = sour;
-			this.bitter = bitter;
-		}
+		find(0,0,1,0);
+		System.out.println(answer);
 	}
 }
