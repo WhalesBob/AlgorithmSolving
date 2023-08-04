@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -8,15 +6,10 @@ public class Main {
 		String inputString = sc.next();
 		String compareString = sc.next();
 		
-		ArrayList<Integer> list = new ArrayList<>();
 		String result = getLastString(inputString, compareString);
-		
 		System.out.println(result.length() == 0 ? "FRULA" : result);
 	}
-	static String getLastString(String input, String compare) {
-		char[] compareArray = compare.toCharArray();
-		char[] putArray = new char[compareArray.length];
-		
+	static String getLastString(String input, String compare) {		
 		CustomStack<Character> inputStack = new CustomStack<>();
 		CustomStack<Character> compareStack = new CustomStack<>();
 		
