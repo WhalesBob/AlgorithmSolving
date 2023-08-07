@@ -5,10 +5,7 @@ class Solution {
     public int[] solution(int n) {
         int[][] matrix = new int[n][n];
 		int[] array = new int[(n*(n+1))/2];
-		
-        int turnCount = 0;
-        int index = 0;
-        int addValue = 1;
+        int turnCount = 0, index = 0, addValue = 1;
         int x = 0, y = -1;
         
         while(true) {
@@ -22,10 +19,9 @@ class Solution {
         		y = nextY;
         		
         	}else {
-        		if(turnCount == 3) {
+        		if(turnCount++ == 3) {
         			break;
         		}
-        		turnCount++;
         		index = (index + 1) % 3;
         	}
         }
