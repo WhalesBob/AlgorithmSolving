@@ -1,47 +1,60 @@
-case = int(input())
+import java.io.*;
+import java.util.*;
 
-direct = [[-1, 0], [0, -1], [1, 0], [0, 1]]
+public class Solution {
+	static List<List<Integer>> direction = Arrays.asList(Arrays.asList(1,0), 
+			Arrays.asList(0,1), Arrays.asList(-1,0), Arrays.asList(0,-1));
+	static int max;
+	static int maxNum, startNum;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = Integer.parseInt(br.readLine());
 
-def can_go(matrix, x, y):
-    return 0 <= x < len(matrix[0]) and 0 <= y < len(matrix)
+		for (int test_case = 1; test_case <= T; test_case++) {
 
-def travel(x, y, matrix):
+			int n = Integer.parseInt(br.readLine());
+			int[][] matrix = makeMatrix(br, n);
+			max = Integer.MIN_VALUE;
+			
+			for(int y = 0; y < matrix.length; y++) {
+				for(int x = 0; x < matrix[0].length; x++) {
+					startNum = matrix[y][x];
+					dfs(x, y, matrix, 1);
+				}
+			}
+			
+			System.out.printf("#%d %d %d\n", test_case, maxNum, max);
+		}
 
-    count = 0
-    while True:
-        count += 1
-        is_traveled = False
-        for i in range(4):
-            next_x = x + direct[i][0]
-            next_y = y + direct[i][1]
-            if can_go(matrix, next_x, next_y) and matrix[next_y][next_x] == matrix[y][x] + 1:
-                is_traveled = True
-                x, y = next_x, next_y
-                break
+	}
 
-        if not is_traveled:
-            break
-
-    return count
-
-
-for c in range(case):
-    n = int(input())
-    d = {}
-    get_take = {}
-
-    matrix = []
-    for y in range(n):
-        array = list(map(int, input().split()))
-        matrix.append(array)
-        for x in range(len(array)):
-            d[array[x]] = [y, x]
-
-    for i in range(1, n ** 2 + 1):
-        axis_y, axis_x = d[i]
-        get_take[i] = travel(axis_x, axis_y, matrix)
-
-    max_take = sorted(get_take.items(), key=lambda x:(x[1],x[0]), reverse=True)
-    real_max_take = [max_take[i] for i in range(len(max_take)) if max_take[i][1] == max_take[0][1]]
-
-    print("#{0} {1} {2}".format(c + 1, max_take[len(real_max_take)-1][0], max_take[len(real_max_take)-1][1]))
+	static int[][] makeMatrix(BufferedReader br, int size) throws IOException {
+		int[][] matrix = new int[size][size];
+		for (int y = 0; y < size; y++) {
+			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+			for (int x = 0; x < size; x++) {
+				matrix[y][x] = Integer.parseInt(st.nextToken());
+			}
+		}
+		return matrix;
+	}
+	
+	static void dfs(int x, int y, int[][] matrix, int count) {
+		for(int i = 0; i < 4; i++) {
+			int nextX = x + direction.get(i).get(0);
+			int nextY = y + direction.get(i).get(1);
+			
+			if(canGo(nextX, nextY, matrix) && matrix[nextY][nextX] == matrix[y][x] + 1) {
+				dfs(nextX, nextY, matrix, count + 1);
+			}
+		}
+		
+		if(max < count || (max == count && maxNum > startNum)) {
+			max = count;
+			maxNum = startNum;
+		}
+	}
+	static boolean canGo(int x, int y, int[][] matrix) {
+		return (0 <= x && x < matrix[0].length) && (0 <= y && y < matrix.length);
+	}
+}
