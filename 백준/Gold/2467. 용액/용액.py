@@ -34,10 +34,10 @@ if array[0] * array[-1] > 0:
 else:
     first_positive = 0
     for i in range(len(array)):
-        if array[i] < 0:
+        if array[i] > 0:
             first_positive = i
+            break
 
-    first_positive += 1
     for positive_value in array[first_positive:]:
         binary_search(positive_value, array[:first_positive])
 
