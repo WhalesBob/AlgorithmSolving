@@ -18,34 +18,23 @@ public class Main {
 		Stack<Character> stack = new Stack<>();
 		
 		for(char c : charArray) {
-			
 			switch(c) {
 				case '>':
-					if(!stack.isEmpty()) {
-						front.addLast(stack.pop());
-					}
+					if(!stack.isEmpty()) front.addLast(stack.pop());
 					break;
 				case '<':
-					if(!front.isEmpty()) {
-						stack.push(front.removeLast());
-					}
+					if(!front.isEmpty()) stack.push(front.removeLast());
 					break;
 				case '-':
-					if(!front.isEmpty()) {
-						front.removeLast();
-					}
+					if(!front.isEmpty()) front.removeLast();
 					break;
 				default:
 					front.addLast(c);
 			}
 		}
 		
-		while(!stack.isEmpty()) {
-			front.add(stack.pop());
-		}
-		while(!front.isEmpty()) {
-			bw.write(Character.toString(front.removeFirst()));
-		}
+		while(!stack.isEmpty()) front.add(stack.pop());
+		while(!front.isEmpty()) bw.write(Character.toString(front.removeFirst()));
 		bw.write("\n");
 	}
 }
