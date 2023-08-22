@@ -15,13 +15,7 @@ public class Main {
 		int c = Integer.parseInt(st.nextToken());
 		
 		char[] letters = makeArray(br);
-		Queue<Integer> queue = new ArrayDeque<>();
 		motherSet = new HashSet<>(Arrays.asList('a','e','i','o','u'));
-		for(int i = 0; i < letters.length; i++) {
-			if(motherSet.contains(letters[i])) {
-				queue.add(i);
-			}
-		}
 		
 		combination(letters, new boolean[letters.length], 0, letters.length, l);
 		bw.flush();
