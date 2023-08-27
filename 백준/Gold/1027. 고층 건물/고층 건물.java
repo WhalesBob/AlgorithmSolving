@@ -2,13 +2,12 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int max;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
 
         int[] array = makeArray(br,n);
-        max = Integer.MIN_VALUE;
+        int max = Integer.MIN_VALUE;
         for(int i = 0; i < array.length; i++){
             int count = 0;
             count += countLeft(array, i);
