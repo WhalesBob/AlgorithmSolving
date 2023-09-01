@@ -1,20 +1,18 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
+        if(n == 1){
+			System.out.println(0);
+			return;
+		}
 		
 		List<Integer> primeList = getPrimeNumber(n);
 		
 		int count = 0;
-		if(n == 1){
-			System.out.println(0);
-			return;
-		}
+
 		if(primeList.get(primeList.size() - 1) == n) {
 			count++;
 		}
