@@ -15,9 +15,6 @@ public class Main {
         }
 
         Person[] haveArray = new Person[101];
-        haveArray[0] = new Person(-1);
-        haveArray[0].time = -1;
-        haveArray[0].suggestCount = -1;
 
         for(int i = 0; i < suggestCount; i++){
             int target = personNumber[i];
@@ -25,7 +22,7 @@ public class Main {
                 queue.remove(haveArray[target]);
             }else{
                 if(queue.size() == n){
-                    Person removedPerson = queue.poll();
+                    Person removedPerson = queue.remove();
                     removedPerson.suggestCount = 0;
                 }
 
@@ -37,8 +34,6 @@ public class Main {
 
             haveArray[target].suggestCount++;
             queue.add(haveArray[target]);
-            queue.add(haveArray[0]);
-            queue.remove();
         }
 
         List<Integer> result = new ArrayList<>();
@@ -49,7 +44,7 @@ public class Main {
         for(Integer i : result) {
             joiner.add(Integer.toString(i));
         }
-        System.out.println(joiner.toString());
+        System.out.println(joiner);
     }
     static class Person implements Comparable<Person>{
         int data;
