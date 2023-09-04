@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -10,62 +9,48 @@ public class Main {
         int length = Integer.parseInt(br.readLine());
         char[] input = br.readLine().trim().toCharArray();
 
-        int index = 2 * n + 1;
-        CustomStack<Character> stack = new CustomStack<>();
+        int after = 2 * n + 1;
+        int before = 0;
+        int count = 0;
 
-        Character[] compare = new Character[index];
+        char[] compare = new char[after];
         compare[0] = 'I';
 
-        for(int i = 1; i < index; i+=2){
+        for(int i = 1; i < after; i+=2){
             compare[i] = 'O';
             compare[i+1] = 'I';
         }
 
-        int count = 0;
-
-        for(int i = 0; i < index; i++){
-            stack.add(input[i]);
-        }
-
-        boolean before = false;
-        while(index < input.length){
-            before = before ? stack.haveWhenPositive() : stack.haveInStack(compare);
-            if(before){
-                stack.add(input[index++]);
+        boolean beforeSame = false;
+        while(after < input.length){
+            beforeSame = beforeSame ? isPartialSame(input, after) : isAllSame(input, compare, before, after);
+            if(beforeSame){
                 count++;
+                after++;
+                before++;
             }
 
-            if(index < input.length){
-                stack.add(input[index++]);
+            if(after < input.length){
+                after++;
+                before++;
             }
         }
 
-        if(stack.haveInStack(compare)){
+        beforeSame = beforeSame ? isPartialSame(input, after) : isAllSame(input, compare, before, after);
+        if(beforeSame){
             count++;
         }
-
         System.out.println(count);
     }
-    static class CustomStack<T> extends Stack<T> {
-        Character getElementInStack(int index){
-            Object get = elementData[this.size() - index - 1];
-            if(get instanceof Character){
-                return (Character)get;
+    static boolean isAllSame(char[] input, char[] compare, int before, int after){
+        for(int i = before; i < after; i++){
+            if(input[i] != compare[i-before]){
+                return false;
             }
-            return null;
         }
-        public boolean haveInStack(Character[] compare){
-            for(int i = 0; i < compare.length; i++){
-                if(!compare[i].equals(getElementInStack(i))){
-                    return false;
-                }
-            }
-            return true;
-        }
-        public boolean haveWhenPositive(){
-            Character first = getElementInStack(0);
-            Character second = getElementInStack(1);
-            return first.equals('I') && second.equals('O');
-        }
+        return true;
+    }
+    static boolean isPartialSame(char[] input, int after){
+        return input[after-2] == 'O' && input[after-1] == 'I';
     }
 }
