@@ -27,10 +27,12 @@ public class Main {
             stack.add(input[i]);
         }
 
+        boolean before = false;
         while(index < input.length){
-            if(stack.haveInStack(compare)){
-                count++;
+            before = before ? stack.haveWhenPositive() : stack.haveInStack(compare);
+            if(before){
                 stack.add(input[index++]);
+                count++;
             }
 
             if(index < input.length){
@@ -59,6 +61,11 @@ public class Main {
                 }
             }
             return true;
+        }
+        public boolean haveWhenPositive(){
+            Character first = getElementInStack(0);
+            Character second = getElementInStack(1);
+            return first.equals('I') && second.equals('O');
         }
     }
 }
