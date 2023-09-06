@@ -18,8 +18,7 @@ public class Main {
 
         PriorityQueue<Beer> levelQueue = new PriorityQueue<>();
         PriorityQueue<Beer> removeQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a.like));
-        long sum = 0, needMax = Long.MAX_VALUE;
-        assert days >= 1;
+        long sum = 0;
         for(int i = 0; i < days; i++){
             levelQueue.add(array[i]);
             sum += array[i].like;
