@@ -1,10 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -16,11 +11,9 @@ public class Main {
 
         Beer[] array = makeBeerArray(br, k);
 
-        PriorityQueue<Beer> levelQueue = new PriorityQueue<>();
         PriorityQueue<Beer> removeQueue = new PriorityQueue<>(Comparator.comparingInt(a -> a.like));
         long sum = 0;
         for(int i = 0; i < days; i++){
-            levelQueue.add(array[i]);
             sum += array[i].like;
             removeQueue.add(array[i]);
         }
@@ -33,16 +26,14 @@ public class Main {
             }
 
             Beer remove = removeQueue.remove();
-
-            levelQueue.remove(remove);
             sum -= remove.like;
 
-            levelQueue.add(array[right]);
             removeQueue.add(array[right]);
             sum += array[right++].like;
         }
 
-        System.out.println(sum < needLike ? -1 : levelQueue.peek().level);
+        int max = removeQueue.stream().max(Comparator.comparingInt(a -> a.level)).get().level;
+        System.out.println(sum < needLike ? -1 : max);
     }
     static Beer[] makeBeerArray(BufferedReader br, int size) throws IOException{
         Beer[] array = new Beer[size];
