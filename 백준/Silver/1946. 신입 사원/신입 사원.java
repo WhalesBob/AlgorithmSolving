@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.Arrays;
-import java.util.Stack;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
