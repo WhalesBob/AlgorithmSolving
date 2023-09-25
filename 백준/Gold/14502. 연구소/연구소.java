@@ -1,99 +1,128 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int maxCount;
-	static List<List<Integer>> virusList;
-	static List<List<Integer>> direction = Arrays.asList(Arrays.asList(-1,0), Arrays.asList(0,-1),
-			Arrays.asList(1,0), Arrays.asList(0,1));
+
+	static int N, M;
+	static String[][] map, copyMap;
+	static int max;
+
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		virusList = new ArrayList<>();
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+
+		map = new String[N][M];
+		for (int i = 0; i < N; i++) {
+			map[i] = br.readLine().split(" ");
+		}
+
+		copyMap = new String[N][M];
+		for (int i = 0; i < N; i++) {
+			copyMap[i] = Arrays.copyOf(map[i], map[i].length);
+		}
 		
-		int[][] matrix = makeMatrix(n, m, br);
-		maxCount = Integer.MIN_VALUE;
-		
-		combination(matrix, 0, 0, 3);
-		System.out.println(maxCount);
+		max = Integer.MIN_VALUE;
+
+		comb(0);
+
+		System.out.println(max);
+
 	}
-	static int[][] makeMatrix(int height, int width, BufferedReader br) throws IOException{
-		int[][] matrix = new int[height][width];
-		for(int y = 0; y < height; y++) {
-			StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-			for(int x= 0; x < width; x++) {
-				matrix[y][x] = Integer.parseInt(st.nextToken());
-				if(matrix[y][x] == 2) {
-					virusList.add(Arrays.asList(x,y));
+
+	private static void comb(int cnt) {
+		if (cnt == 3) {
+
+			String[][] bfsMap = new String[N][M];
+			for (int i = 0; i < N; i++) {
+				bfsMap[i] = Arrays.copyOf(copyMap[i], copyMap[i].length);
+			}
+
+			max = Math.max(max, bfs(bfsMap));
+			return;
+		}
+
+//		for (int i = 0; i < N; i++) {
+//			for (int j = 0; j < M; j++) {
+//				if (copyMap[i][j].equals("0")) {
+//					copyMap[i][j] = "1";
+//					comb(cnt + 1);
+//					copyMap[i][j] = "0";
+//				}
+//			}
+//		}
+        for(int i = 0; i < N * M; i++) {
+            int r = i / M;
+            int c = i % M;
+            
+            if(copyMap[r][c].equals("0")) {
+                copyMap[r][c] = "1";
+                comb(cnt + 1);
+                copyMap[r][c] = "0";
+            }
+        }
+
+	}
+
+	private static int bfs(String[][] copyMap) {
+
+		Queue<Data> queue = new ArrayDeque<Data>();
+
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (copyMap[i][j].equals("2")) {
+					queue.offer(new Data(i, j));
 				}
 			}
 		}
-		return matrix;
-	}
-	static void combination(int[][] matrix,int x, int y, int r) {
-		if(r == 0) {
-			int[][] newMatrix = cloneMatrix(matrix);
-			maxCount = Math.max(maxCount, getSafetyCount(newMatrix));
-			return ;
-		}	
-		
-		while(x < matrix[0].length && y < matrix.length) {
-			if (matrix[y][x] == 0) {
-				matrix[y][x] = 1;
-				int newY = x + 1 < matrix[0].length ? y : y + 1;
-				int newX = x + 1 < matrix[0].length ? x + 1 : 0;
-				combination(matrix,newX,newY,r-1);
-				matrix[y][x] = 0;
-			}
-			
-			y = x + 1 < matrix[0].length ? y : y + 1;
-			x = x + 1 < matrix[0].length ? x + 1 : 0;
-		}
-	}
-	static int getSafetyCount(int[][] matrix) {	
-		
-		Queue<List<Integer>> virusQueue = new LinkedList<>(virusList);
-		
-		while(!virusQueue.isEmpty()) {
-			List<Integer> element = virusQueue.remove();
-			int elementX = element.get(0);
-			int elementY = element.get(1);
-			
-			for(int i = 0; i < 4; i++) {
-				int newX = elementX + direction.get(i).get(0);
-				int newY = elementY + direction.get(i).get(1);
-				
-				if(canGo(newX, newY, matrix)) {
-					matrix[newY][newX] = 2;
-					virusQueue.add(Arrays.asList(newX, newY));
+
+		while (!queue.isEmpty()) {
+			Data current = queue.poll();
+
+			int[] dr = { -1, 1, 0, 0 };
+			int[] dc = { 0, 0, -1, 1 };
+
+			for (int i = 0; i < 4; i++) {
+				int nr = current.i + dr[i];
+				int nc = current.j + dc[i];
+
+				if (nr >= 0 && nr < N && nc >= 0 && nc < M && copyMap[nr][nc].equals("0")) {
+					copyMap[nr][nc] = "2";
+					queue.offer(new Data(nr, nc));
 				}
 			}
 		}
-		
-		int count=0;
-		for(int y = 0; y < matrix.length; y++) {
-			for(int x = 0; x < matrix[0].length; x++) {
-				if(matrix[y][x] == 0) {
-					count ++;
-				}
+
+
+		int count = 0;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (copyMap[i][j].equals("0"))
+					count++;
 			}
 		}
+
 		return count;
+
 	}
-	static int[][] cloneMatrix(int[][] matrix){
-		int[][] newMatrix = new int[matrix.length][matrix[0].length];
-		for(int i = 0; i < matrix.length; i++) {
-			for(int j = 0; j < matrix[0].length; j++) {
-				newMatrix[i][j] = matrix[i][j];
-			}
+
+	static class Data {
+		int i;
+		int j;
+
+		public Data(int i, int j) {
+			super();
+			this.i = i;
+			this.j = j;
 		}
-		return newMatrix;
+
 	}
-	
-	static boolean canGo(int x, int y, int[][] matrix) {
-		boolean physicallyCanGo = (0 <= x && x < matrix[0].length) && (0 <= y && y < matrix.length);
-		return physicallyCanGo && matrix[y][x] == 0;
-	}
+
 }
