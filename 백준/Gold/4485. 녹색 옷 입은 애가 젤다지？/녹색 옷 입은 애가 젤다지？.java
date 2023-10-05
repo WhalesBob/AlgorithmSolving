@@ -1,95 +1,84 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-	static List<List<Integer>> direction = Arrays.asList(Arrays.asList(1,0), Arrays.asList(0,1), 
-			Arrays.asList(-1,0), Arrays.asList(0,-1));
-	static final int INF = Integer.MAX_VALUE;
-	public static void main(String[] args) throws IOException{
+	
+	static int[][] map, visited;
+	static int N, result;
+	static int[] dr = {-1, 1, 0, 0};
+	static int[] dc = { 0, 0,-1, 1};
+	
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int count = 0;
-		Queue<Node> queue = new ArrayDeque<>();
+		StringTokenizer st = null;
+		
+		int cnt = 1;
 		while(true) {
-			int n = Integer.parseInt(br.readLine());
-			if(n == 0) {
+			int temp = Integer.parseInt(br.readLine());
+			if(temp == 0) {
 				break;
 			}
 			
-			int[][] matrix = makeMatrix(br, n);
-			System.out.printf("Problem %d: %d\n", ++count, getMinimum(queue,matrix));
-		}
-	}
-	static int[][] makeMatrix(BufferedReader br, int size) throws IOException{
-		int[][] matrix = new int[size][size];
-		for(int y = 0;  y < size; y++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-			for(int x = 0; x < size; x++) {
-				matrix[y][x] = Integer.parseInt(st.nextToken());
-			}
-		}
-		return matrix;
-	}
-	static int getMinimum(Queue<Node> queue,int[][] matrix) {
-		int[][] record = new int[matrix.length][matrix[0].length];
-		for(int i = 0; i < record.length; i++) {
-			Arrays.fill(record[i], INF);
-		}
-		record[0][0] = matrix[0][0];
-		queue.add(new Node(0,0));
-		
-		while(!queue.isEmpty()) {
-			Node element = queue.remove();
-			for(int i = 0; i < 4; i++) {
-				int newX = element.x + direction.get(i).get(0);
-				int newY = element.y + direction.get(i).get(1);
-				if(canGo(newX, newY, matrix)) {
-					boolean less = matrix[newY][newX] + record[element.y][element.x] < record[newY][newX];
-					if(less) {
-						record[newY][newX] = matrix[newY][newX] + record[element.y][element.x];
-						queue.add(new Node(newX, newY));
-					}
+			N = temp;
+			map = new int[N][N];
+			
+			for(int i = 0; i < N; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j = 0; j < N; j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-		}
-		return record[record.length-1][record[0].length-1];
-	}
-	
-	static int[][] copyMatrix(int[][] matrix){
-		int[][] copy = new int[matrix.length][matrix[0].length];
-		for(int i = 0; i < matrix.length; i++) {
-			for(int j = 0; j < matrix[0].length; j++) {
-				copy[i][j] = matrix[i][j];
+			
+			visited = new int[N][N];
+			for(int i = 0; i < N; i++) {
+				for(int j = 0; j < N; j++) {
+					visited[i][j] = Integer.MAX_VALUE;
+				}
 			}
+			BFS();
+			
+			System.out.println("Problem " + cnt + ": " + visited[N-1][N-1]);
+			cnt++;
 		}
-		return matrix;
-	}
-	static boolean canGo(int x, int y, int[][] matrix) {
-		return (0 <= x && x < matrix[0].length) && (0 <= y && y < matrix.length);
 	}
 	
-	static class Node{
-		int x;
-		int y;
+	static void BFS() {
+		Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>(){
+
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return Integer.compare(o1[2], o2[2]);
+			}
+			
+		});
 		
-		public Node(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		@Override
-		public int hashCode() {
-			// TODO Auto-generated method stub
-			return this.x * 10000 + this.y;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			// TODO Auto-generated method stub
-			if(obj instanceof Node) {
-				Node o = (Node)obj;
-				return (this.x == o.x) && (this.y == o.y);
+		q.offer(new int[] {0, 0, map[0][0]});
+		visited[0][0] = map[0][0];
+		
+		while(!q.isEmpty()) {
+			int[] current = q.poll();
+			int r = current[0];
+			int c = current[1];
+			
+			for(int d = 0; d < 4; d++) {
+				int nr = r + dr[d];
+				int nc = c + dc[d];
+				
+				if(nr < 0 || nr >= N || nc < 0 || nc >= N) {
+					continue;
+				}
+				
+				if(visited[nr][nc] > map[nr][nc] + visited[r][c]) {
+					visited[nr][nc] = map[nr][nc] + visited[r][c];
+					q.offer(new int[] {nr, nc, visited[nr][nc]});
+				}
+				
 			}
-			return false;
 		}
 	}
+
 }
