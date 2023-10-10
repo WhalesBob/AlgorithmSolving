@@ -1,65 +1,77 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-	static List<List<Integer>> direction = Arrays.asList(Arrays.asList(0,1), Arrays.asList(1,0), Arrays.asList(0,-1), Arrays.asList(-1,0));
-	public static void main(String[] args) throws IOException{
+	
+	static int N,M,R;
+	static String map[][];
+	static int startR, startC;
+	
+	static int[] dr = {1, 0, -1, 0}; // 하 우 상 좌
+	static int[] dc = {0, 1,  0,-1};
+	static boolean[][] v;
+	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		int r = Integer.parseInt(st.nextToken());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		R = Integer.parseInt(st.nextToken());
 		
-		int[][] matrix = makeMatrix(br, n, m);
+		map = new String[N][M];
 		
-		for(int i = 0; i < r; i++) {
-			int s = 0;
-			while(s < Math.min(n, m) - s) {
-				rotateOneLayer(matrix, s, s, matrix[0].length - s, matrix.length - s);
-				s++;
-			}
+		for(int i = 0; i < N; i++) {
+			map[i] = br.readLine().split(" ");
 		}
 		
-		for(int y = 0; y < matrix.length; y++) {
-			for(int x = 0; x < matrix[0].length; x++) {
-				bw.write(matrix[y][x] + " ");
-			}
-			bw.write("\n");
+		int half;
+		
+		if(N > M) half = M/2 -1;
+		else half = N/2 - 1;
+		
+		v = new boolean[N][M];
+		
+		for(int i = 0; i < R; i++) {
+			for(int j = 0; j <= half; j++) {
+				startR = j;
+				startC = j;
+				rotate(startR, startC, 0, map[j][j]);
+			} 
+			v = new boolean[N][M];
 		}
-		bw.flush();
-	}
-	static int[][] makeMatrix(BufferedReader br, int height, int width) throws IOException{
-		int[][] matrix = new int[height][width];
-		for(int y = 0; y < height; y++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-			for(int x = 0; x < width; x++ ) {
-				matrix[y][x] = Integer.parseInt(st.nextToken());
+		
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < M; j++) {
+				sb.append(map[i][j]).append(" ");
 			}
+			sb.append("\n");
 		}
-		return matrix;
+		
+		System.out.println(sb.toString());
 	}
-	static void rotateOneLayer(int[][] matrix, int startX, int startY, int endX, int endY) {
-		Queue<Integer> queue = new ArrayDeque<>();
-		int x = startX, y = startY, initX = startX, initY = startY;
-		int index = 0;
-		queue.add(matrix[startY][startX]);
-		do {
-			int nextX = x + direction.get(index).get(0);
-			int nextY = y + direction.get(index).get(1);
-			
-			if(!isInBound(nextX, nextY, startX, startY, endX, endY)) {
-				index++;
-				continue;
-			}
-			
-			queue.add(matrix[nextY][nextX]);
-			matrix[nextY][nextX] = queue.remove();
-			x = nextX; y = nextY;
-		}while(index < 4);
-	}
-	static boolean isInBound(int x, int y, int startX, int startY, int endX, int endY ) {
-		return (startX <= x && x < endX) && (startY <= y && y < endY);
+	
+	
+	static void rotate(int r, int c, int dir, String pre) {
+		// 기저 조건
+		if(v[r][c]) {
+			return;
+		}
+		v[r][c] = true;
+		int nr = r + dr[dir];
+		int nc = c + dc[dir];
+		
+		if(nr < startR || nr >= N - startR || nc < startC || nc >= M - startC) {
+			dir = (dir + 1) % 4;
+			nr = r + dr[dir];
+			nc = c + dc[dir];
+		}
+		
+		String temp = map[nr][nc];
+		map[nr][nc] = pre;
+		
+		rotate(nr, nc, dir, temp);
 	}
 }
