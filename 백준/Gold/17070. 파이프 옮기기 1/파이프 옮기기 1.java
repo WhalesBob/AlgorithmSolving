@@ -1,63 +1,65 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int size = Integer.parseInt(br.readLine());
-		
-		int[][] matrix = makeMatrix(br, size);
 
-		int[][] rightMatrix = new int[matrix.length][matrix[0].length];
-		int[][] slideMatrix = new int[matrix.length][matrix[0].length];
-		int[][] downMatrix = new int[matrix.length][matrix[0].length];
-		
-		rightMatrix[0][1] = 1;
-		
-		for(int y = 0; y < matrix.length; y++) {
-			for(int x = 1; x < matrix[0].length; x++) {
-				if(canComeFromLeft(x, y, matrix)) {
-					rightMatrix[y][x] += (rightMatrix[y][x-1] + slideMatrix[y][x-1]);
-				}
-				
-				if(canComeFromSlide(x, y, matrix)) {
-					slideMatrix[y][x] += (slideMatrix[y-1][x-1] + rightMatrix[y-1][x-1] + downMatrix[y-1][x-1]);
-				}
-				
-				if(canComeFromUp(x, y, matrix)) {
-					downMatrix[y][x] += (downMatrix[y-1][x] + slideMatrix[y-1][x]);
-				}
-			}
-		}
-		
-		System.out.println(rightMatrix[size-1][size-1] + slideMatrix[size-1][size-1] + downMatrix[size-1][size-1]);
-	}
-	static boolean canComeFromLeft(int x, int y, int[][] matrix) {
-		return canGo(x-1,y,matrix) && matrix[y][x] != -1 && matrix[y][x-1] != -1;
-	}
-	
-	static boolean canComeFromSlide(int x, int y, int[][] matrix) {
-		return canGo(x-1,y-1,matrix) && matrix[y-1][x-1] != -1 
-				&& matrix[y][x-1] != -1 && matrix[y-1][x] != -1 && matrix[y][x] != -1;
-	}
-	static boolean canComeFromUp(int x, int y, int[][] matrix) {
-		return canGo(x, y-1, matrix) && matrix[y-1][x] != -1 && matrix[y][x] != -1;
-	}
-	
-	static int[][] makeMatrix(BufferedReader br, int size) throws IOException{
-		int[][] matrix = new int[size][size];
-		for(int y = 0; y < size; y++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-			for(int x = 0; x < size; x++) {
-				matrix[y][x] = Integer.parseInt(st.nextToken());
-				if(matrix[y][x] == 1) {
-					matrix[y][x] = -1;
-				}
-			}
-		}
-		return matrix;
-	}
-	static boolean canGo(int x, int y, int[][] matrix) {
-		return (0 <= x && x < matrix[0].length) && (0 <= y && y < matrix.length);
-	}
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        int N = Integer.parseInt(br.readLine());
+        int[][] map = new int[N][N];
+        
+        // 가로, 대각, 세로
+        int[][][] dp = new int[N][N][3];
+        
+        dp[0][1][0] = 1;
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        
+        
+        int[][] check = new int[N][N];
+        
+        for(int i = 0; i < N; i++) {
+            for(int j = 2; j < N; j++) {
+                
+            	if(map[i][j] == 1) {
+            		continue;
+            	}
+            	
+                // 가로로 들어오는경우
+                if(map[i][j-1] == 0) {
+                    dp[i][j][0] = dp[i][j-1][0] + dp[i][j-1][1];
+                }
+                
+                // 대각으로 들어오는 경우
+                if(i > 0 && map[i-1][j-1] == 0 && map[i][j-1] == 0 && map[i-1][j] == 0) {
+                    dp[i][j][1] = dp[i-1][j-1][0] + dp[i-1][j-1][1] + dp[i-1][j-1][2];
+                }
+                
+                // 세로로 들어오는 경우
+                if(i > 0 && map[i-1][j] == 0) {
+                    dp[i][j][2] = dp[i-1][j][1] + dp[i-1][j][2];
+                }
+                
+                check[i][j] = dp[i][j][0] + dp[i][j][1] + dp[i][j][2]; 
+            }
+        }
+        
+//        for(int i = 0; i < N; i++) {
+//            for(int j = 0; j < N; j++) {
+//                System.out.print(check[i][j] + " ");
+//            }
+//            System.out.println("");
+//        }
+        
+        
+        System.out.println(dp[N-1][N-1][0] + dp[N-1][N-1][1] + dp[N-1][N-1][2]);
+
+    }
+
 }
