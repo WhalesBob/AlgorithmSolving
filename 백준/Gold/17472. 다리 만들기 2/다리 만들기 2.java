@@ -1,214 +1,310 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
-public class Main {
-	static List<List<Integer>> direction = Arrays.asList(Arrays.asList(1,0), 
-			Arrays.asList(0,1), Arrays.asList(-1,0), Arrays.asList(0,-1));
-	static List<Island> islandArray;
-	static int[] parent;
-	static PriorityQueue<Integer> priorityQueue;
+public class Main{
 
-	static final int INF = 100_000;
-	public static void main(String[] args) throws IOException{
+	static class Node implements Comparable<Node> {
+
+		int from;
+		int to;
+		int weight;
+
+		public Node(int from, int to, int weight) {
+			this.from = from;
+			this.to = to;
+			this.weight = weight;
+		}
+
+		@Override
+		public int compareTo(Node o) {
+			return this.weight - o.weight;
+		}
+
+		@Override
+		public String toString() {
+			return "Node [from=" + from + ", to=" + to + ", weight=" + weight + "]";
+		}
+
+	}
+
+	static int N, M, isNum, result;
+	static int[][] map;
+
+	static List<int[]> island;
+	static List<int[]> coastLine;
+	static Queue<Node> pq = new PriorityQueue<>();
+
+	static boolean[][] visited;
+	static int[] parents;
+	static int[] dr = { -1, 1, 0, 0 };
+	static int[] dc = { 0, 0, -1, 1 };
+
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine()," ");
-		
-		int height = Integer.parseInt(st.nextToken());
-		int width = Integer.parseInt(st.nextToken());
+		StringTokenizer st = null;
 
-		int[][] matrix = makeMatrix(br, height, width);
-		
-		islandArray = getAllIsland(matrix);
-		
-		priorityQueue = new PriorityQueue<>();
-		int[][] minLengthMatrix = getMinimumLength(matrix);
-		
-		if(priorityQueue.size() == 0) {
+		// 다리의 방향이 중간에 바뀌면 안된다.
+		// 다리의 길이는 2 이상이어야한다.
+
+		// 일단 섬을 분리한다. (현재 1로 되어 있음)
+		// 섬을 분리 했다면 해안선을 구한다. (치즈 풀듯이 0부터 탐색)
+
+		// 다리를 만들고 크루스칼
+
+		st = new StringTokenizer(br.readLine());
+
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+
+		map = new int[N][M];
+		island = new ArrayList<>();
+
+		// 맵 받아오기
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < M; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+
+				if (map[i][j] == 1) {
+					island.add(new int[] { i, j });
+				}
+			}
+		}
+
+		// 섬 분리하기
+		isNum = 1;
+		visited = new boolean[N][M];
+		for (int i = 0; i < island.size(); i++) {
+			int r = island.get(i)[0];
+			int c = island.get(i)[1];
+			divide(r, c);
+		}
+
+		// 해안선 구하기
+		coastLine = new ArrayList<>();
+		visited = new boolean[N][M];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				if (map[i][j] == 0) {
+					getCoastLine(i, j);
+				}
+			}
+		}
+
+		// 그래프 구하기
+		for (int i = 0; i < coastLine.size(); i++) {
+			int r = coastLine.get(i)[0];
+			int c = coastLine.get(i)[1];
+
+			makeBridge(r, c, map[r][c]);
+		}
+
+		// 최소 신장 트리
+		parents = new int[isNum];
+		for (int i = 1; i < isNum; i++) {
+			parents[i] = i;
+		}
+
+
+		shortestPath();
+
+		if (result == 0) {
 			System.out.println(-1);
+		} else {
+			System.out.println(result);
+		}
+
+	}
+
+	static void divide(int r, int c) {
+
+		if (visited[r][c]) {
 			return;
 		}
-		
-		parent = new int[islandArray.size()];
-		for(int i = 0; i < parent.length; i++) {
-			parent[i] = i;
+
+		Queue<int[]> q = new ArrayDeque<>();
+		q.offer(new int[] { r, c });
+		visited[r][c] = true;
+		map[r][c] = isNum;
+
+		while (!q.isEmpty()) {
+			int[] current = q.poll();
+			int cr = current[0];
+			int cc = current[1];
+
+			int nr, nc;
+			for (int d = 0; d < 4; d++) {
+				nr = cr + dr[d];
+				nc = cc + dc[d];
+
+				if (nr < 0 || nr >= N || nc < 0 || nc >= M) {
+					continue;
+				}
+
+				if (visited[nr][nc]) {
+					continue;
+				}
+
+				if (map[nr][nc] == 0) {
+					continue;
+				}
+
+				q.offer(new int[] { nr, nc });
+				visited[nr][nc] = true;
+				map[nr][nc] = isNum;
+
+			}
 		}
-		
-		int sum = 0;
-		int count = 0;
-		
-		try {
-			while(count < parent.length - 1) {
-				int element = priorityQueue.poll();
-				int length = element / 1000;
-				element %= 1000;
-				
-				int start = element / 10;
-				int end = element % 10;
-				
-				int rootA = find(start);
-				int rootB = find(end);
-				
-				if(rootA != rootB) {
-					sum += length;
-					union(start, end);
-					count++;
+
+		isNum++;
+	}
+
+	static void getCoastLine(int r, int c) {
+		if (visited[r][c]) {
+			return;
+		}
+
+		Queue<int[]> q = new ArrayDeque<>();
+		q.offer(new int[] { r, c });
+		visited[r][c] = true;
+
+		while (!q.isEmpty()) {
+			int[] current = q.poll();
+			int cr = current[0];
+			int cc = current[1];
+
+			int nr, nc;
+			for (int d = 0; d < 4; d++) {
+				nr = cr + dr[d];
+				nc = cc + dc[d];
+
+				if (nr < 0 || nr >= N || nc < 0 || nc >= M) {
+					continue;
+				}
+
+				if (visited[nr][nc]) {
+					continue;
+				}
+
+				if (map[nr][nc] != 0) {
+					coastLine.add(new int[] { nr, nc });
+					visited[nr][nc] = true;
+					continue;
+				}
+
+				q.offer(new int[] { nr, nc });
+				visited[nr][nc] = true;
+
+			}
+		}
+
+	}
+
+	static void makeBridge(int r, int c, int type) {
+
+		Queue<int[]> q = new ArrayDeque<>();
+		boolean[][] visited = new boolean[N][M];
+
+		for (int d = 0; d < 4; d++) {
+			q.offer(new int[] { r, c, 0 });
+			visited[r][c] = true;
+
+			while (!q.isEmpty()) {
+				int[] current = q.poll();
+				int cr = current[0];
+				int cc = current[1];
+				int len = current[2];
+
+				int nr = cr + dr[d];
+				int nc = cc + dc[d];
+
+				if (nr < 0 || nr >= N || nc < 0 || nc >= M) {
+					continue;
+				}
+
+				if (visited[nr][nc]) {
+					continue;
+				}
+
+				if (map[nr][nc] == type) {
+					break;
+				}
+
+				if (map[nr][nc] != type && map[nr][nc] != 0) {
+					int from = type;
+					int to = map[nr][nc];
+					int brLen = len;
+
+					if (brLen > 1) {
+						pq.add(new Node(from, to, brLen));
+						break;
+					}
+				}
+
+				else {
+					q.add(new int[] { nr, nc, len + 1 });
+					visited[nr][nc] = true;
 				}
 			}
-			System.out.println(sum);
-		}catch(NullPointerException e) {
-			System.out.println(-1);
+			q.clear();
 		}
+
 	}
-	static void union(int a, int b) {
+
+	static void shortestPath() {
+		int sum = 0;
+		int size = pq.size();
+
+		for (int i = 0; i < size; i++) {
+			Node node = pq.poll();
+			int a = node.from;
+			int b = node.to;
+
+			if (union(a, b)) {
+				sum += node.weight;
+			}
+
+		}
+
+		
+		for(int i = 1; i < isNum; i++) {
+			find(i);
+		}
+		int root = parents[1];
+		for (int i = 2; i < isNum; i++) {
+			if (find(i) != root) {
+				result = 0;
+				return;
+			}
+		}
+
+		result = sum;
+
+	}
+
+	static int find(int a) {
+		if (parents[a] == a)
+			return a;
+		return parents[a] = find(parents[a]);
+	}
+
+	static boolean union(int a, int b) {
 		a = find(a);
 		b = find(b);
-		
-		parent[b] = a;
-	}
-	
-	static int find(int x) {
-		if(parent[x] == x) {
-			return x;
-		}
-		
-		parent[x] = find(parent[x]);
-		return parent[x];
-	}
-	static int[][] getMinimumLength(int[][] matrix){
-		int[][] minimumMatrix = new int[islandArray.size()][islandArray.size()];
-		
-		for(int i = 0; i < minimumMatrix.length; i++) {
-			Arrays.fill(minimumMatrix[i], INF);
-			minimumMatrix[i][i] = 0;
-		}
-		
-		for(int l = 0; l < islandArray.size(); l++) {
-			Island land = islandArray.get(l);
-			for(int element : land.edgeLand) {
-				int x = element % 1000;
-				int y = element / 1000;
-				for(int i = 0; i < 4; i++) {
-					int newX = x + direction.get(i).get(0);
-					int newY = y + direction.get(i).get(1);
-					
-					if(canGo(newX, newY, matrix) && matrix[newY][newX] == 0) {
-						int result = getTourResult(x, y, i, matrix);
-						if(result > 0) {
-							int target = (result / 1000) - 1;
-							int length = result % 1000;
-							
-							if(length >= 2 && minimumMatrix[l][target] > length) {
-								minimumMatrix[l][target] = minimumMatrix[target][l] = length;
-								priorityQueue.add(makeDistanceInfo(l, target, minimumMatrix[l][target]));
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		return minimumMatrix;
-	}
-	static int getTourResult(int x, int y, int directionIdx, int[][] matrix) {
-		int count = 0;
-		while(true) {
-			x += direction.get(directionIdx).get(0);
-			y += direction.get(directionIdx).get(1);
-			
-			if(!canGo(x, y, matrix)) {
-				break;
-			}else if(matrix[y][x] != 0) {
-				return getKey(count, matrix[y][x]);
-			}
-			
-			count++;
-		}
-		
-		return -1;
-	}
-	static List<Island> getAllIsland(int[][] matrix) {
-		
-		List<Island> islandList = new ArrayList<>();
-		boolean[][] visited = new boolean[matrix.length][matrix[0].length];
-		Queue<Integer> queue = new ArrayDeque<>();
-		int count = 0;
-		
-		for(int y = 0; y < matrix.length; y++) {
-			for(int x = 0; x < matrix[0].length; x++) {
-				if(!visited[y][x] && matrix[y][x] == 1) {
-					queue.add(getKey(x, y));
-					visited[y][x] = true;
-					islandList.add(getOneIsland(matrix, visited, queue, ++count));
-				}
-			}
-		}
-		
-		return islandList;
-	}
-	static Island getOneIsland(int[][] matrix, boolean[][] visited, Queue<Integer> queue, int islandCount) {
-		
-		Island island = new Island();
-		
-		while(!queue.isEmpty()) {
-			int element = queue.remove();
-			int y = element / 1000;
-			int x = element % 1000;
-			
-			matrix[y][x] = islandCount;
-			int count = 0;
-						
-			for(int i = 0; i < 4; i++) {
-				int newX = x + direction.get(i).get(0);
-				int newY = y + direction.get(i).get(1);
-				
-				if(!canGo(newX, newY, matrix)) {
-					count++;
-				}else if(matrix[newY][newX] > 0) {
-					count++;
-					if(!visited[newY][newX]) {
-						visited[newY][newX] = true;
-						queue.add(getKey(newX, newY));	
-						
-					}
-				}
-			}
-			
-			if(0 <= count && count < 4) {
-				island.edgeLand.add(getKey(x, y));
-			}
-		}
-		
-		return island;
-	}
-	static boolean canGo(int x, int y, int[][] matrix) {
-		return (0 <= x && x < matrix[0].length) && (0 <= y && y < matrix.length);
-	}
-	
-	static int getKey(int x, int y) {
-		return 1000 * y + x;
-	}
-	static int makeDistanceInfo(int start, int end, int distance) {
-		return distance * 1000 + start * 10 + end;
-	}
-	
-	static int[][] makeMatrix(BufferedReader br, int height, int width) throws IOException{
-		int[][] matrix = new int[height][width];
-		
-		for(int y = 0; y < height; y++) {
-			StringTokenizer st = new StringTokenizer(br.readLine()," ");
-			for(int x = 0; x < width; x++) {
-				matrix[y][x] = Integer.parseInt(st.nextToken());
-			}
-		}
-		return matrix;
-	}
-	static class Island{
-		Set<Integer> edgeLand;
 
-		public Island() {
-			this.edgeLand = new HashSet<>();
+		if (a == b)
+			return false;
+		else {
+			parents[b] = a;
+			return true;
 		}
 	}
+
 }
