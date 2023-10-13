@@ -1,51 +1,58 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.StringTokenizer;
 
 public class Main {
-
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
 		
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
 		
-		int[] arr = new int[N];
-		
-		st = new StringTokenizer(br.readLine());
-		int max = 0;
-		
-		for(int i = 0; i < N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-			max = Math.max(max, arr[i]);
-		}
-		
-		int min = 0;
-		int mid = 0;
-		
-		while(min < max) {
-			mid = (min + max) / 2;
-			
-			long count = 0;
-			
-			for(int i = 0; i < N; i++) {
-				
-				if(arr[i] > mid) {
-					count += arr[i] - mid;
-				}
-			}
-			
-			if(count >= M) {
-				min = mid + 1;
-			}
-			else {
-				max = mid;
-			}
-		}
-		
-		System.out.println(min - 1);
-		
+		int[] array = makeArray(br, n);
+		System.out.println(getMaximumHeight(array, m));
 	}
-
+	static int getMaximumHeight(int[] array, int needLength) {
+		int left = 0, right = getMax(array);
+		int answer = 0;
+		
+		while(left <= right) {
+			int mid = (left + right) / 2;
+			if(isAvailable(array, mid, needLength)) {
+				answer = mid;
+				left = mid + 1;
+			}else {
+				right = mid - 1;
+			}
+		}
+		return answer;
+	}
+	static boolean isAvailable(int[] array, int targetHeight, int need) {
+		long sum = 0;
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] > targetHeight) {
+				sum += (array[i] - targetHeight);
+			}
+		}
+		
+		return sum >= need;
+	}
+	static int getMax(int[] array) {
+		int max = -1;
+		for(int i = 0; i < array.length; i++) {
+			if(max < array[i]) {
+				max = array[i];
+			}
+		}
+		return max;
+	}
+	static int[] makeArray(BufferedReader br, int size) throws IOException{
+		int[] array = new int[size];
+		StringTokenizer st = new StringTokenizer(br.readLine()," ");
+		for(int i = 0; i < size; i++) {
+			array[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		return array;
+	}
 }
