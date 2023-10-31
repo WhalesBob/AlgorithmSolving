@@ -10,13 +10,8 @@ public class Main {
         int max = -1;
 
         List<String> inputList = new ArrayList<>();
-        Set<String> inputSet = new HashSet<>();
         for(int i = 0; i < n; i++){
-            String input = br.readLine().trim();
-            if(!inputSet.contains(input)){
-                inputList.add(input);
-                inputSet.add(input);
-            }
+            inputList.add(br.readLine().trim());
         }
 
         trie.insert(inputList.get(0));
