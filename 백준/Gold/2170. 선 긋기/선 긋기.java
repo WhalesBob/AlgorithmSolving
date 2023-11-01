@@ -36,9 +36,7 @@ public class Main {
             return;
         }
 
-        Line putStack = stack.pop();
-        putStack.end = Math.max(element.end, putStack.end);
-        stack.push(putStack);
+        stack.peek().end = Math.max(element.end, stack.peek().end);
     }
     static class Line implements Comparable<Line>{
         long start;
